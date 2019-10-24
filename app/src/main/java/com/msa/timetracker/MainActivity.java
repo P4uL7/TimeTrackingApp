@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 tView.setText("Pressed button2.");
                 break;
             case R.id.bClick3:
-                tView.setText("Pressed button3.");
+                tView.setText("Launching dayActivity.");
                 launchActivity();
                 break;
             case R.id.bRandom:

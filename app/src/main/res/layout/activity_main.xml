@@ -57,7 +57,7 @@
             android:layout_below="@+id/appName"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:onClick="clicked"
-            android:text="Some Button 3"
+            android:text="Go to DayActivity"
             android:textSize="@dimen/button_font_size" />
 
 
