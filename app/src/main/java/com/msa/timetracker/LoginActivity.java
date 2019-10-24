@@ -6,49 +6,35 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        getApplicationContext();
-
+        setContentView(R.layout.activity_login);
     }
 
-    public void clicked(View view) {
+    public void clicked_login(View view) {
 
-        TextView tView = findViewById(R.id.tName);
+        TextView tView = findViewById(R.id.login_message);
 
         switch (view.getId()) {
-            case R.id.bClick1:
-                tView.setText("Pressed button1.");
+            case R.id.loginButton:
+                tView.setText("Pressed login.");
                 break;
-            case R.id.bClick2:
-                tView.setText("Pressed button2.");
+            case R.id.registerButton:
+                tView.setText("Pressed register.");
                 break;
-            case R.id.bClick3:
-                tView.setText("Pressed button3.");
+            case R.id.goToMainButton:
+                tView.setText("Pressed goToMain.");
                 launchActivity();
-                break;
-            case R.id.bRandom:
-                tView.setText("Pressed the random button!");
-                showAlertDialog("Random Dialog");
                 break;
         }
     }
 
-    private void showAlertDialog(String message) {
-        FragmentManager fm = getSupportFragmentManager();
-        PopupDialogFragment alertDialog = new PopupDialogFragment(message, getApplicationContext());
-        alertDialog.show(fm, "fragment_alert");
-    }
-
     private void launchActivity() {
-        Intent intent = new Intent(this, DayActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
