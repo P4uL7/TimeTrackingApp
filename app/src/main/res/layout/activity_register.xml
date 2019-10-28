@@ -12,7 +12,7 @@
     tools:context=".RegisterActivity">
 
     <TextView
-        android:id="@+id/login_message"
+        android:id="@+id/register_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -24,7 +24,7 @@
         android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_message"
+        android:layout_below="@+id/register_message"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40sp"
         android:columnCount="2"

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +54,26 @@ public class LoginActivity extends AppCompatActivity {
     public void clicked_login(View view) {
 
         TextView tView = findViewById(R.id.login_message);
+        EditText email_field = findViewById(R.id.email_login);
+        EditText password_field = findViewById(R.id.password_login);
+
+        String email = email_field.getText().toString();
+        String password = password_field.getText().toString();
 
         switch (view.getId()) {
             case R.id.loginButton:
                 tView.setText("Pressed login.");
-                signIn("email@gmail.com", "password");
+                if (email.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Email cannot be empty.",
+                            Toast.LENGTH_SHORT).show();
+                } else if (password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Password cannot be empty.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    signIn(email, password);
+                }
                 break;
-            case R.id.registerButton:
+            case R.id.goToRegisterButton:
                 tView.setText("Pressed register.");
                 launchRegisterActivity();
                 break;
@@ -64,6 +81,14 @@ public class LoginActivity extends AppCompatActivity {
                 tView.setText("Pressed goToMain.");
                 launchMainActivity();
                 break;
+            case R.id.googleLoginButton:
+                tView.setText("Pressed Google.");
+                getCurrentUser();
+                break;
+            case R.id.facebookLoginButton:
+                tView.setText("Pressed Facebook.");
+                break;
+
         }
     }
 
@@ -89,12 +114,12 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
 
                             currentUser = mAuth.getCurrentUser();
+                            Log.d(TAG, "signInWithEmail:success");
                             updateUI(currentUser);
-                            System.out.println("Authentication succeeded.");
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
                             updateUI(null);
                             System.out.println("Authentication failed.");
 
@@ -120,6 +145,13 @@ public class LoginActivity extends AppCompatActivity {
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
             String uid = currentUser.getUid();
+
+            System.out.println(name + "  " + email + "  \n" + photoUrl + " \n" + emailVerified + " \n" + uid);
+            Toast.makeText(LoginActivity.this, "Logged in as: " + email,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(LoginActivity.this, "Not logged in.",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

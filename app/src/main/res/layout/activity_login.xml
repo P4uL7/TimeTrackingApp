@@ -16,40 +16,114 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150sp"
+        android:layout_marginBottom="50sp"
         android:text="LOGIN activity"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/loginButton"
-        style="@style/Widget.AppCompat.Button.Colored"
+    <GridLayout
+        android:id="@+id/gridLayoutLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_message"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:onClick="clicked_login"
-        android:text="Login" />
+        android:layout_marginBottom="40sp"
+        android:columnCount="2"
+        android:rowCount="3">
+
+
+        <TextView
+            android:id="@+id/email_label_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email:"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/email_login"
+            android:layout_width="@dimen/register_field_width"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/password_label_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="password:"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/password_login"
+            android:layout_width="@dimen/register_field_width"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayoutButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gridLayoutLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75sp"
+        android:columnCount="2"
+        android:rowCount="3">
+
+        <Button
+            android:id="@+id/loginButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="7sp"
+            android:layout_marginRight="7sp"
+            android:onClick="clicked_login"
+            android:text="Login" />
+
+
+        <Button
+            android:id="@+id/goToRegisterButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7sp"
+            android:layout_marginLeft="7sp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:onClick="clicked_login"
+            android:text="Register" />
+
+    </GridLayout>
 
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/googleLoginButton"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginButton"
+        android:layout_below="@+id/gridLayoutButtons"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="100sp"
         android:onClick="clicked_login"
-        android:text="Register" />
+        android:text="Google" />
+
+    <Button
+        android:id="@+id/facebookLoginButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/googleLoginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:onClick="clicked_login"
+        android:text="Facebook" />
 
     <Button
         android:id="@+id/goToMainButton"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/registerButton"
+        android:layout_below="@+id/facebookLoginButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:onClick="clicked_login"
