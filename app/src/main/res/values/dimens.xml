@@ -6,4 +6,5 @@
     <dimen name="activity_vertical_margin_vbig">64sp</dimen>
 
     <dimen name="button_font_size">16sp</dimen>
+    <dimen name="register_field_width">200sp</dimen>
 </resources>

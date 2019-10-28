@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    FirebaseUser currentUser;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,43 +58,25 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case R.id.registerButton:
                 tView.setText("Pressed register.");
-                createAccount("email@gmail.com", "password");
+                launchRegisterActivity();
                 break;
             case R.id.goToMainButton:
                 tView.setText("Pressed goToMain.");
-                launchActivity();
+                launchMainActivity();
                 break;
         }
     }
 
-    private void launchActivity() {
+    private void launchMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    private void createAccount(String email, String password) {
-        System.out.println("Enter create.");
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Registration succeeded.",
-                                    Toast.LENGTH_SHORT).show();
-
-                            currentUser = mAuth.getCurrentUser();
-                            updateUI(currentUser);
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Registration failed.",
-                                    Toast.LENGTH_SHORT).show();
-
-                            updateUI(null);
-                        }
-
-                        // ...
-                    }
-                });
+    private void launchRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
+
 
     private void signIn(String email, String password) {
         System.out.println("Enter sign in.");
