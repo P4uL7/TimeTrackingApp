@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         System.out.println("Current user: " + currentUser);
         updateUI(currentUser);
+    }
+
+    @Override
+    public void onBackPressed() {
+        showAlertDialog("Are you sure you wish to exit?");
+    }
+
+    private void showAlertDialog(String message) {
+        FragmentManager fm = getSupportFragmentManager();
+        PopupDialogFragment alertDialog = new PopupDialogFragment(message, getApplicationContext(), "No", "Yes");
+        alertDialog.show(fm, "exit_app");
     }
 
     private void updateUI(FirebaseUser user) {
@@ -92,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private void launchMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -116,6 +129,8 @@ public class LoginActivity extends AppCompatActivity {
                             currentUser = mAuth.getCurrentUser();
                             Log.d(TAG, "signInWithEmail:success");
                             updateUI(currentUser);
+
+                            launchMainActivity();
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();

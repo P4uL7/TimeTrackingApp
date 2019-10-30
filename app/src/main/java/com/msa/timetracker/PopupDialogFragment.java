@@ -12,10 +12,13 @@ import androidx.fragment.app.DialogFragment;
 public class PopupDialogFragment extends DialogFragment {
     String dialogMessage;
     Context applicationContext;
+    String negativeButton, positiveButton;
 
-    public PopupDialogFragment(String dialogMessage, Context applicationContext) {
+    public PopupDialogFragment(String dialogMessage, Context applicationContext, String negativeButton, String positiveButton) {
         this.dialogMessage = dialogMessage;
         this.applicationContext = applicationContext;
+        this.negativeButton = negativeButton;
+        this.positiveButton = positiveButton;
     }
 
     @Override
@@ -23,12 +26,16 @@ public class PopupDialogFragment extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(dialogMessage)
-                .setPositiveButton("OK!", new DialogInterface.OnClickListener() {
+                .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         showToast("Great...");
+
+                        if (dialogMessage.equals("Are you sure you wish to exit?")) {
+                            System.exit(-1);
+                        }
                     }
                 })
-                .setNegativeButton("Not OK", new DialogInterface.OnClickListener() {
+                .setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         showToast(" :( ");
                     }
