@@ -1,7 +1,6 @@
 package com.msa.timetracker;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +14,7 @@ public class DayActivity extends AppCompatActivity {
 
         Button mBtGoBack = findViewById(R.id.bt_go_back);
 
-        mBtGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                finish();
-            }
-        });
+        mBtGoBack.setOnClickListener(view -> finish());
 
     }
 }

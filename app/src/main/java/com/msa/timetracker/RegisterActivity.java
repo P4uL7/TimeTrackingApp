@@ -7,12 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -74,26 +70,23 @@ public class RegisterActivity extends AppCompatActivity {
     private void createAccount(String email, String password) {
         System.out.println("Enter create with: " + email + "  " + password);
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Registration succeeded.",
-                                    Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "createUserWithEmail:success");
+                .addOnCompleteListener(RegisterActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(RegisterActivity.this, "Registration succeeded.",
+                                Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "createUserWithEmail:success");
 
-                            currentUser = mAuth.getCurrentUser();
+                        currentUser = mAuth.getCurrentUser();
 
-                            launchMainActivity();
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Registration failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        launchMainActivity();
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Registration failed.",
+                                Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
-                        }
-
-                        // ...
                     }
+
+                    // ...
                 });
     }
 

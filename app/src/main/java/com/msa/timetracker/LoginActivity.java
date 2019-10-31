@@ -10,26 +10,42 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
+    private static final int RC_SIGN_IN = 9001;
+
     private static final String TAG = "LoginActivity";
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -41,25 +57,26 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         currentUser = mAuth.getCurrentUser();
         System.out.println("Current user: " + currentUser);
-        updateUI(currentUser);
+        if (currentUser != null)
+            launchMainActivity();
     }
 
-    @Override
-    public void onBackPressed() {
-        showAlertDialog("Are you sure you wish to exit?");
-    }
+    @Override // google sign in
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private void showAlertDialog(String message) {
-        FragmentManager fm = getSupportFragmentManager();
-        PopupDialogFragment alertDialog = new PopupDialogFragment(message, getApplicationContext(), "No", "Yes");
-        alertDialog.show(fm, "exit_app");
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user != null)
-            System.out.println("Got user: " + user.toString());
-        else
-            System.out.println("User is NULL!");
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -89,19 +106,69 @@ public class LoginActivity extends AppCompatActivity {
                 tView.setText("Pressed register.");
                 launchRegisterActivity();
                 break;
-            case R.id.goToMainButton:
-                tView.setText("Pressed goToMain.");
-                launchMainActivity();
-                break;
+//            case R.id.goToMainButton:
+//                tView.setText("Pressed goToMain.");
+//                launchMainActivity();
+//                break;
             case R.id.googleLoginButton:
                 tView.setText("Pressed Google.");
-                getCurrentUser();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+
+                new Thread(() -> {
+                    int retryCount = 40;
+                    while (currentUser == null && retryCount >= 0) {
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        if (currentUser != null)
+                            launchMainActivity();
+                        retryCount--;
+                    }
+                }).start();
+
                 break;
             case R.id.facebookLoginButton:
                 tView.setText("Pressed Facebook.");
                 break;
-
+            case R.id.showUserStatus:
+                tView.setText("Showing login status.");
+                getCurrentUser();
         }
+    }
+
+    // START auth_with_google
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+                        currentUser = mAuth.getCurrentUser();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        Toast.makeText(LoginActivity.this, "Authentication Failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+    }
+
+    @Override
+    public void onBackPressed() {
+        showAlertDialog("Are you sure you wish to exit?");
+    }
+
+    private void showAlertDialog(String message) {
+        FragmentManager fm = getSupportFragmentManager();
+        PopupDialogFragment alertDialog = new PopupDialogFragment(message, getApplicationContext(), "No", "Yes");
+        alertDialog.show(fm, "exit_app");
     }
 
 
@@ -119,29 +186,21 @@ public class LoginActivity extends AppCompatActivity {
     private void signIn(String email, String password) {
         System.out.println("Enter sign in.");
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Authentication succeeded.",
-                                    Toast.LENGTH_SHORT).show();
-
-                            currentUser = mAuth.getCurrentUser();
-                            Log.d(TAG, "signInWithEmail:success");
-                            updateUI(currentUser);
-
-                            launchMainActivity();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            updateUI(null);
-                            System.out.println("Authentication failed.");
-
-                        }
-
-                        // ...
+                .addOnCompleteListener(LoginActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Authentication succeeded.",
+                                Toast.LENGTH_SHORT).show();
+                        currentUser = mAuth.getCurrentUser();
+                        Log.d(TAG, "signInWithEmail:success");
+                        launchMainActivity();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        System.out.println("Authentication failed.");
                     }
+
+                    // ...
                 });
     }
 

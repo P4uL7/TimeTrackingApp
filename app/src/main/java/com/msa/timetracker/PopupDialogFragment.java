@@ -2,7 +2,6 @@ package com.msa.timetracker;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -26,20 +25,14 @@ public class PopupDialogFragment extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(dialogMessage)
-                .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        showToast("Great...");
+                .setPositiveButton(positiveButton, (dialog, id) -> {
+                    showToast("Great...");
 
-                        if (dialogMessage.equals("Are you sure you wish to exit?")) {
-                            System.exit(-1);
-                        }
+                    if (dialogMessage.equals("Are you sure you wish to exit?")) {
+                        System.exit(-1);
                     }
                 })
-                .setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        showToast(" :( ");
-                    }
-                });
+                .setNegativeButton(negativeButton, (dialog, id) -> showToast(" :( "));
         // Create the AlertDialog object and return it
         return builder.create();
     }
