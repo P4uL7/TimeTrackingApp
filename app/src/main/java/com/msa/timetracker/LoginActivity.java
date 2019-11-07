@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, error.getMessage(),
                         Toast.LENGTH_SHORT).show();
                 // ...
-                // TODO Not a signed jar file.
+                // TODO
             }
         });
     }
@@ -188,21 +188,6 @@ public class LoginActivity extends AppCompatActivity {
                 tView.setText("Pressed Google.");
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-
-                new Thread(() -> {
-                    int retryCount = 40;
-                    while (currentUser == null && retryCount >= 0) {
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {
-                            System.out.println(e.getMessage());
-                        }
-                        if (currentUser != null)
-                            launchMainActivity();
-                        retryCount--;
-                    }
-                }).start();
-
                 break;
             case R.id.facebookLoginButton:
                 tView.setText("Pressed Facebook.");
@@ -226,6 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
                         currentUser = mAuth.getCurrentUser();
+                        launchMainActivity();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());

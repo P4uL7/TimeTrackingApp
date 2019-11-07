@@ -1,9 +1,9 @@
 package com.msa.timetracker;
 
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class DayActivity extends AppCompatActivity {
 
@@ -12,9 +12,11 @@ public class DayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
 
-        Button mBtGoBack = findViewById(R.id.bt_go_back);
+//        Button mBtGoBack = findViewById(R.id.bt_go_back);
+//        mBtGoBack.setOnClickListener(view -> finish());
 
-        mBtGoBack.setOnClickListener(view -> finish());
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
     }
 }
