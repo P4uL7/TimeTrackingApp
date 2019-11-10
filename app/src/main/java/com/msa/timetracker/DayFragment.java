@@ -11,24 +11,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class DayFragment extends Fragment implements View.OnClickListener {
     private View v;
-    private Button btn_profile;
+    private Button btn_goBack;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_profile, container, false);
-        btn_profile = v.findViewById(R.id.btn_profile);
-        btn_profile.setOnClickListener(this);
+
+        v = inflater.inflate(R.layout.fragment_day, container, false);
+        btn_goBack = v.findViewById(R.id.bt_go_back);
+        btn_goBack.setOnClickListener(this);
         return v;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_profile:
-                Toast.makeText(getActivity(), "clicky", Toast.LENGTH_SHORT).show();
+            case R.id.bt_go_back:
+                Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

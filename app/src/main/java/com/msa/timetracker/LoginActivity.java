@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -43,6 +44,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getIntent().getBooleanExtra("Exit me", false)) {
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -222,13 +227,25 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        showAlertDialog("Are you sure you wish to exit?");
+        new AlertDialog.Builder(this)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you wish to exit?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                    homeIntent.addCategory(Intent.CATEGORY_HOME);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homeIntent);
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton("No", null)
+                .show();
     }
 
-    private void showAlertDialog(String message) {
+    private void showAlertDialog(String message, String negative, String positive, String tag) {
         FragmentManager fm = getSupportFragmentManager();
-        PopupDialogFragment alertDialog = new PopupDialogFragment(message, getApplicationContext(), "No", "Yes");
-        alertDialog.show(fm, "exit_app");
+        PopupDialogFragment alertDialog = new PopupDialogFragment(message, getApplicationContext(), negative, positive);
+        alertDialog.show(fm, tag);
     }
 
 

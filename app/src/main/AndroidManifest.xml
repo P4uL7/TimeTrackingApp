@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".DayActivity" />
         <activity android:name=".MainActivity" /> <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

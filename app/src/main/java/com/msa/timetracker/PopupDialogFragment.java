@@ -9,9 +9,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 public class PopupDialogFragment extends DialogFragment {
-    String dialogMessage;
-    Context applicationContext;
-    String negativeButton, positiveButton;
+    private String dialogMessage;
+    private Context applicationContext;
+    private String negativeButton, positiveButton;
 
     public PopupDialogFragment(String dialogMessage, Context applicationContext, String negativeButton, String positiveButton) {
         this.dialogMessage = dialogMessage;
