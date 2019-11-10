@@ -34,13 +34,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final int RC_SIGN_IN = 9001;
+    private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private CallbackManager mCallbackManager;
-
-    private static final int RC_SIGN_IN = 9001;
-
-    private static final String TAG = "LoginActivity";
     private GoogleSignInClient mGoogleSignInClient;
 
     @Override
