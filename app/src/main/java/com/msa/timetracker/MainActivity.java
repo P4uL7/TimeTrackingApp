@@ -3,13 +3,20 @@ package com.msa.timetracker;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -19,12 +26,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+
+    private DrawerLayout drawer;
 
 
     @Override
@@ -32,12 +41,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //drawer stuff
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                    new ProfileFragment()).commit();
+//            navigationView.setCheckedItem(R.id.nav_message);
+//        }
+        // end drawer stuff
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+
 
     }
 
@@ -51,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void clicked(View view) {
@@ -136,4 +170,32 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        System.out.println("Menu item id: " + menuItem.getItemId());
+        switch (menuItem.getItemId()) {
+            case R.id.nav_profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
+                        new ProfileFragment()).commit();
+                break;
+
+            case R.id.nav_logout:
+                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.nav_exitApp:
+                Toast.makeText(MainActivity.this, "nav_exitApp", Toast.LENGTH_SHORT).show();
+                break;
+
+
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

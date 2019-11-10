@@ -31,4 +31,17 @@
         </menu>
     </item>
 
+    <item android:title="Exit">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Logout" />
+            <item
+                android:id="@+id/nav_exitApp"
+                android:icon="@drawable/ic_close_app"
+                android:title="Close app" />
+        </menu>
+    </item>
+
 </menu>

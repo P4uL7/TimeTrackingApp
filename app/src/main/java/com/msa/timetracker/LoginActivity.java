@@ -178,10 +178,10 @@ public class LoginActivity extends AppCompatActivity {
                 tView.setText("Pressed register.");
                 launchRegisterActivity();
                 break;
-//            case R.id.goToMainButton:
-//                tView.setText("Pressed goToMain.");
-//                launchMainActivity();
-//                break;
+            case R.id.goToMainButton:
+                tView.setText("Pressed goToMain.");
+                launchMainActivity();
+                break;
             case R.id.googleLoginButton:
                 tView.setText("Pressed Google.");
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
