@@ -6,30 +6,36 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_main"
-            android:icon="@drawable/ic_message"
+            android:icon="@drawable/ic_calendar"
             android:title="Main" />
         <item
             android:id="@+id/nav_day"
-            android:icon="@drawable/ic_chat"
+            android:icon="@drawable/ic_day"
             android:title="Day" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
             android:title="Profile" />
+        <item
+            android:id="@+id/nav_merge"
+            android:icon="@drawable/ic_merge"
+            android:title="Link accounts" />
+
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_send"
-                android:title="Send" />
-        </menu>
-    </item>
+
+    <!--    <item android:title="Communicate">-->
+    <!--        <menu>-->
+    <!--            <item-->
+    <!--                android:id="@+id/nav_share"-->
+    <!--                android:icon="@drawable/ic_merge"-->
+    <!--                android:title="Share" />-->
+    <!--            <item-->
+    <!--                android:id="@+id/nav_send"-->
+    <!--                android:icon="@drawable/ic_merge"-->
+    <!--                android:title="Send" />-->
+    <!--        </menu>-->
+    <!--    </item>-->
 
     <item android:title="Exit">
         <menu>

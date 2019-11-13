@@ -120,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
                         new MainFragment()).commit();
                 break;
+            case R.id.nav_merge:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
+                        new MergeAccountsFragment()).commit();
+                break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
                 launchLoginActivity();
