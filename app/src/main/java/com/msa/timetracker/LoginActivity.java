@@ -19,7 +19,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -71,19 +70,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        initializeFacebookButton();
+
+
         // Check if user is signed in (non-null) and update UI accordingly.
         currentUser = mAuth.getCurrentUser();
-
-        initializeFacebookButton();
 
         System.out.println("Current user: " + currentUser);
         if (currentUser != null)
             launchMainActivity();
-
-        System.out.println("Current FB user: " + Profile.getCurrentProfile());
-        if (Profile.getCurrentProfile() != null)
-            launchMainActivity();
-
     }
 
     private void initializeFacebookButton() {
@@ -277,6 +272,8 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         currentUser = mAuth.getCurrentUser();
                         Log.d(TAG, "signInWithEmail:success");
+
+
                         launchMainActivity();
                     } else {
                         Toast.makeText(LoginActivity.this, "Authentication failed.",

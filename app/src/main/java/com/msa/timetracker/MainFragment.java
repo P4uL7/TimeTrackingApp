@@ -26,16 +26,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference myRef;
     private FirebaseDatabase database;
 
-
     Button bClick1, bClick2, bClick3, bRandom;
     private View v;
 
-    public MainFragment(FirebaseAuth mAuth, FirebaseUser currentUser, DatabaseReference myRef, FirebaseDatabase database) {
-        this.mAuth = mAuth;
-        this.currentUser = currentUser;
-        this.myRef = myRef;
-        this.database = database;
-    }
 
     @Nullable
     @Override
@@ -49,6 +42,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         bClick2.setOnClickListener(this);
         bClick3.setOnClickListener(this);
         bRandom.setOnClickListener(this);
+
+        //firebase
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
         return v;
     }
 
@@ -60,7 +60,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 getCurrentUser();
                 break;
             case R.id.bClick2:
-                Toast.makeText(getActivity(), "Adding junk to db.", Toast.LENGTH_SHORT).show();
+                addJunkToDB();
                 break;
             case R.id.bClick3:
                 Toast.makeText(getActivity(), "Launching dayActivity.", Toast.LENGTH_SHORT).show();
@@ -97,6 +97,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     private void addJunkToDB() {
         if (currentUser != null) {
+            Toast.makeText(getActivity(), "User: " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
             currentUser = mAuth.getCurrentUser();
             String userID = currentUser.getUid();
             String userEmail = currentUser.getEmail();

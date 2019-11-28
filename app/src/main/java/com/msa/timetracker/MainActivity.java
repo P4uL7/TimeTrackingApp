@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                    new MainFragment(mAuth, currentUser, myRef, database)).commit();
+                    new MainFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_main);
         }
         // end drawer stuff
@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_main:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new MainFragment(mAuth, currentUser, myRef, database)).commit();
+                        new MainFragment()).commit();
                 break;
             case R.id.nav_merge:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new MergeAccountsFragment(mAuth, currentUser, myRef, database)).commit();
+                        new MergeAccountsFragment()).commit();
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
