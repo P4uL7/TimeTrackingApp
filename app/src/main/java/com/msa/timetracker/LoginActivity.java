@@ -19,6 +19,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -78,6 +79,11 @@ public class LoginActivity extends AppCompatActivity {
         System.out.println("Current user: " + currentUser);
         if (currentUser != null)
             launchMainActivity();
+
+        System.out.println("Current FB user: " + Profile.getCurrentProfile());
+        if (Profile.getCurrentProfile() != null)
+            launchMainActivity();
+
     }
 
     private void initializeFacebookButton() {
@@ -92,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Authentication OK.",
                         Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken());
+                launchMainActivity();
             }
 
             @Override
@@ -183,18 +190,19 @@ public class LoginActivity extends AppCompatActivity {
                 tView.setText("Pressed register.");
                 launchRegisterActivity();
                 break;
-            case R.id.goToMainButton:
-                tView.setText("Pressed goToMain.");
-                launchMainActivity();
-                break;
+
             case R.id.googleLoginButton:
                 tView.setText("Pressed Google.");
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
-            case R.id.facebookLoginButton:
-                tView.setText("Pressed Facebook.");
-                break;
+//            case R.id.goToMainButton:
+//                tView.setText("Pressed goToMain.");
+//                launchMainActivity();
+//                break;
+//            case R.id.facebookLoginButton:
+//                tView.setText("Pressed Facebook.");
+//                break;
             case R.id.showUserStatus:
                 tView.setText("Showing login status.");
                 getCurrentUser();

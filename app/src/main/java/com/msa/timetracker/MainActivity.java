@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import com.facebook.login.LoginManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+
     }
+
 
     @Override
     public void onStart() {
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 launchLoginActivity();
                 break;
             case R.id.nav_exitApp:
