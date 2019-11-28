@@ -20,10 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    static FirebaseAuth mAuth;
-    static FirebaseUser currentUser;
-    static DatabaseReference myRef;
-    FirebaseDatabase database;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference myRef;
+    private FirebaseDatabase database;
     DrawerLayout drawer;
 
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                    new MainFragment()).commit();
+                    new MainFragment(mAuth, currentUser, myRef, database)).commit();
             navigationView.setCheckedItem(R.id.nav_main);
         }
         // end drawer stuff
@@ -110,19 +110,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new ProfileFragment()).commit();
+                        new ProfileFragment(mAuth, currentUser, myRef, database)).commit();
                 break;
             case R.id.nav_day:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new DayFragment()).commit();
+                        new DayFragment(mAuth, currentUser, myRef, database)).commit();
                 break;
             case R.id.nav_main:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new MainFragment()).commit();
+                        new MainFragment(mAuth, currentUser, myRef, database)).commit();
                 break;
             case R.id.nav_merge:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new MergeAccountsFragment()).commit();
+                        new MergeAccountsFragment(mAuth, currentUser, myRef, database)).commit();
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();

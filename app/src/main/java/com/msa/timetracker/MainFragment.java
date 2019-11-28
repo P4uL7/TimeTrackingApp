@@ -13,13 +13,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class MainFragment extends Fragment implements View.OnClickListener {
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference myRef;
+    private FirebaseDatabase database;
+
+
     Button bClick1, bClick2, bClick3, bRandom;
     private View v;
+
+    public MainFragment(FirebaseAuth mAuth, FirebaseUser currentUser, DatabaseReference myRef, FirebaseDatabase database) {
+        this.mAuth = mAuth;
+        this.currentUser = currentUser;
+        this.myRef = myRef;
+        this.database = database;
+    }
 
     @Nullable
     @Override
@@ -57,20 +73,20 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getCurrentUser() {
-        MainActivity.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (MainActivity.currentUser != null) {
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
             // Name, email address, and profile photo Url
-            String name = MainActivity.currentUser.getDisplayName();
-            String email = MainActivity.currentUser.getEmail();
-            Uri photoUrl = MainActivity.currentUser.getPhotoUrl();
+            String name = currentUser.getDisplayName();
+            String email = currentUser.getEmail();
+            Uri photoUrl = currentUser.getPhotoUrl();
 
             // Check if user's email is verified
-            boolean emailVerified = MainActivity.currentUser.isEmailVerified();
+            boolean emailVerified = currentUser.isEmailVerified();
 
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
-            String uid = MainActivity.currentUser.getUid();
+            String uid = currentUser.getUid();
 
             System.out.println(name + "  " + email + "  \n" + photoUrl + " \n" + emailVerified + " \n" + uid);
             Toast.makeText(getActivity(), "Logged in as: " + email, Toast.LENGTH_SHORT).show();
@@ -80,15 +96,15 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     private void addJunkToDB() {
-        if (MainActivity.currentUser != null) {
-            MainActivity.currentUser = MainActivity.mAuth.getCurrentUser();
-            String userID = MainActivity.currentUser.getUid();
-            String userEmail = MainActivity.currentUser.getEmail();
+        if (currentUser != null) {
+            currentUser = mAuth.getCurrentUser();
+            String userID = currentUser.getUid();
+            String userEmail = currentUser.getEmail();
 
             Date currentTime = Calendar.getInstance().getTime();
 
-            MainActivity.myRef.child(userID).child("Time").setValue(currentTime.toString());
-            MainActivity.myRef.child(userID).child("email").setValue(userEmail);
+            myRef.child(userID).child("Time").setValue(currentTime.toString());
+            myRef.child(userID).child("email").setValue(userEmail);
         } else {
             Toast.makeText(getActivity(), "User is null.", Toast.LENGTH_SHORT).show();
         }

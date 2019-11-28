@@ -11,9 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class ProfileFragment extends Fragment implements View.OnClickListener {
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference myRef;
+    private FirebaseDatabase database;
+
+
     private View v;
     private Button btn_profile;
+
+    public ProfileFragment(FirebaseAuth mAuth, FirebaseUser currentUser, DatabaseReference myRef, FirebaseDatabase database) {
+        this.mAuth = mAuth;
+        this.currentUser = currentUser;
+        this.myRef = myRef;
+        this.database = database;
+    }
 
     @Nullable
     @Override
