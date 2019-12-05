@@ -26,11 +26,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private View v;
     private Button btn_profile;
 
-    public ProfileFragment(FirebaseAuth mAuth, FirebaseUser currentUser, DatabaseReference myRef, FirebaseDatabase database) {
-        this.mAuth = mAuth;
-        this.currentUser = currentUser;
-        this.myRef = myRef;
-        this.database = database;
+    public ProfileFragment() {
     }
 
     @Nullable

@@ -12,6 +12,10 @@
             android:id="@+id/nav_day"
             android:icon="@drawable/ic_day"
             android:title="Day" />
+<!--        <item-->
+<!--            android:id="@+id/nav_task"-->
+<!--            android:icon="@drawable/ic_task"-->
+<!--            android:title="Current Task" />-->
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
@@ -23,19 +27,6 @@
 
     </group>
 
-
-    <!--    <item android:title="Communicate">-->
-    <!--        <menu>-->
-    <!--            <item-->
-    <!--                android:id="@+id/nav_share"-->
-    <!--                android:icon="@drawable/ic_merge"-->
-    <!--                android:title="Share" />-->
-    <!--            <item-->
-    <!--                android:id="@+id/nav_send"-->
-    <!--                android:icon="@drawable/ic_merge"-->
-    <!--                android:title="Send" />-->
-    <!--        </menu>-->
-    <!--    </item>-->
 
     <item android:title="Exit">
         <menu>

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.facebook.login.LoginManager;
 import com.google.android.material.navigation.NavigationView;
@@ -109,22 +110,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (menuItem.getItemId()) {
             case R.id.nav_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new ProfileFragment(mAuth, currentUser, myRef, database)).commit();
+                transaction.replace(R.id.fragment_container_main,
+                        new ProfileFragment()).commit();
                 break;
             case R.id.nav_day:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                        new DayFragment(mAuth, currentUser, myRef, database)).commit();
+                transaction.replace(R.id.fragment_container_main,
+                        new DayFragment()).commit();
                 break;
+//            case R.id.nav_task:
+//                transaction.replace(R.id.fragment_container_main,
+//                        new TaskFragment()).commit();
+//                break;
             case R.id.nav_main:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
+                transaction.replace(R.id.fragment_container_main,
                         new MainFragment()).commit();
                 break;
             case R.id.nav_merge:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
+                transaction.replace(R.id.fragment_container_main,
                         new MergeAccountsFragment()).commit();
                 break;
             case R.id.nav_logout:
