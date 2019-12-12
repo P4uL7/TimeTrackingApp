@@ -4,44 +4,89 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapter extends BaseAdapter {
-    Context context;
-    String nameList[];
-    String durationList[];
-    LayoutInflater inflter;
+import com.google.android.material.snackbar.Snackbar;
 
-    public CustomAdapter(Context applicationContext, String[] nameList, String[] durationList) {
-        this.context = applicationContext;
-        this.nameList = nameList;
-        this.durationList = durationList;
-        inflter = (LayoutInflater.from(applicationContext));
+import java.util.ArrayList;
+
+public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnClickListener {
+
+    Context mContext;
+    private ArrayList<DataModel> dataSet;
+    private int lastPosition = -1;
+
+    public CustomAdapter(ArrayList<DataModel> data, Context context) {
+        super(context, R.layout.activity_listview, data);
+        this.dataSet = data;
+        this.mContext = context;
+
     }
 
     @Override
-    public int getCount() {
-        return nameList.length;
+    public void onClick(View v) {
+
+        int position = (Integer) v.getTag();
+        Object object = getItem(position);
+        DataModel dataModel = (DataModel) object;
+
+        switch (v.getId()) {
+            case R.id.item_info:
+                Snackbar.make(v, "Release date " + dataModel.getFeature(), Snackbar.LENGTH_LONG)
+                        .setAction("No action", null).show();
+                break;
+        }
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Get the data item for this position
+        DataModel dataModel = getItem(position);
+        // Check if an existing view is being reused, otherwise inflate the view
+        ViewHolder viewHolder; // view lookup cache stored in tag
+
+        final View result;
+
+        if (convertView == null) {
+
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.activity_listview, parent, false);
+            viewHolder.txtName = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.txtType = (TextView) convertView.findViewById(R.id.type);
+            viewHolder.txtVersion = (TextView) convertView.findViewById(R.id.version_number);
+            viewHolder.info = (ImageView) convertView.findViewById(R.id.item_info);
+
+            result = convertView;
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+            result = convertView;
+        }
+
+        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+        result.startAnimation(animation);
+        lastPosition = position;
+
+        viewHolder.txtName.setText(dataModel.getName());
+        viewHolder.txtType.setText(dataModel.getType());
+        viewHolder.txtVersion.setText(dataModel.getVersion_number());
+        viewHolder.info.setOnClickListener(this);
+        viewHolder.info.setTag(position);
+        // Return the completed view to render on screen
+        return convertView;
     }
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflter.inflate(R.layout.activity_listview, null);
-        TextView name = view.findViewById(R.id.list_task_name);
-        TextView duration = view.findViewById(R.id.list_task_duration);
-        name.setText(nameList[i]);
-        duration.setText(durationList[i]);
-        return view;
+    // View lookup cache
+    private static class ViewHolder {
+        TextView txtName;
+        TextView txtType;
+        TextView txtVersion;
+        ImageView info;
     }
 }
