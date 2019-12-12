@@ -2,33 +2,29 @@ package com.msa.timetracker;
 
 public class DataModel {
 
-    String name;
-    String type;
-    String version_number;
-    String feature;
+    private String name;
+    private String duration;
 
-    public DataModel(String name, String type, String version_number, String feature) {
+    public DataModel(String name, String duration) {
         this.name = name;
-        this.type = type;
-        this.version_number = version_number;
-        this.feature = feature;
-
+        this.duration = duration;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public String getVersion_number() {
-        return version_number;
-    }
+    public String getDuration() {
+        long milliseconds = Long.parseLong(duration);
+        int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+        milliseconds -= hours * (1000 * 60 * 60);
+        int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
+        milliseconds -= minutes * (1000 * 60);
+        int seconds = (int) (milliseconds / 1000) % 60;
 
-    public String getFeature() {
-        return feature;
+        String _duration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return _duration;
     }
 
 }
