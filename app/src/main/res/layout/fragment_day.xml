@@ -13,20 +13,43 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="40dp"
         android:text="Today's tasks"
-        android:textSize="40sp" />
+        android:textSize="48sp" />
+
+    <TextView
+        android:id="@+id/tsk_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/day_title"
+        android:paddingLeft="22dp"
+        android:paddingRight="20dp"
+        android:text="Task"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textSize="24dp" />
+
+
+    <TextView
+        android:id="@+id/tsk_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/day_title"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Duration"
+        android:textSize="24dp" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/day_title"
+        android:layout_below="@+id/tsk_name"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        android:divider="@color/colorAccent"
-        android:dividerHeight="1dp"
         android:padding="5dp" />
 
     <!--    add task list here-->

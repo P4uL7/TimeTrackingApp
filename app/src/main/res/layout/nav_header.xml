@@ -9,20 +9,23 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/left_menu_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher_round" />
 
     <TextView
+        android:id="@+id/left_menu_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="Yolo"
+        android:text="Username"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        android:id="@+id/left_menu_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="yolo@mail.com" />
+        android:text="address@mail.com" />
 
 </LinearLayout>

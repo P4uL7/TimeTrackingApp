@@ -3,6 +3,8 @@ package com.msa.timetracker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -34,9 +36,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
         //drawer stuff
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        //
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = headerView.findViewById(R.id.left_menu_username);
+        navUsername.setText(currentUser.getDisplayName());
+        TextView navEmail = headerView.findViewById(R.id.left_menu_email);
+        navEmail.setText(currentUser.getEmail());
+        //
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,
@@ -51,11 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         // end drawer stuff
 
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
 
     }
 

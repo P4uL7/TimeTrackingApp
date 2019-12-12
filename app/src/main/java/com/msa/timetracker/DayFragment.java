@@ -2,7 +2,10 @@ package com.msa.timetracker;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +116,34 @@ public class DayFragment extends Fragment implements View.OnClickListener {
                 });
                 builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-                builder.show();
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                input.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        // Check if edittext is empty
+                        if (TextUtils.isEmpty(s)) {
+                            // Disable ok button
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+                        } else {
+                            // Something into edit text. Enable the button.
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        }
+                    }
+                });
+
                 break;
         }
     }

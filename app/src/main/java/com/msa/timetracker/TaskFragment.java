@@ -82,11 +82,8 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
         if (currentUser != null) {
             currentUser = mAuth.getCurrentUser();
             String userID = currentUser.getUid();
-            String userEmail = currentUser.getEmail();
 
-//            myRef.child(userID).child("email").setValue(userEmail);
             myRef.child(userID).child(getCurrentDate()).child(taskName).setValue(elapsedMillis);
-
             Toast.makeText(getActivity(), "Task added to DB!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Failed to save task.", Toast.LENGTH_SHORT).show();
