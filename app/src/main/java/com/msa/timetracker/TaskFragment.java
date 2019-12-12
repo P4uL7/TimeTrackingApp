@@ -1,6 +1,7 @@
 package com.msa.timetracker;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -82,8 +84,8 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
             String userID = currentUser.getUid();
             String userEmail = currentUser.getEmail();
 
-            myRef.child(userID).child("email").setValue(userEmail);
-            myRef.child(userID).child(getCurrentDate()).child(taskName).child("Duration").setValue(elapsedMillis);
+//            myRef.child(userID).child("email").setValue(userEmail);
+            myRef.child(userID).child(getCurrentDate()).child(taskName).setValue(elapsedMillis);
 
             Toast.makeText(getActivity(), "Task added to DB!", Toast.LENGTH_SHORT).show();
         } else {
@@ -123,10 +125,25 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
                     task_done = true;
                     elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
                     addTaskToDB();
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        // Do something after delay
+                        Fragment fragment = new DayFragment();
+                        replaceFragment(fragment);
+                    }, 800);
+
                 }
                 break;
 
         }
+    }
+
+    public void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container_main, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
