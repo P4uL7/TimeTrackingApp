@@ -60,11 +60,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 getCurrentUser();
                 break;
             case R.id.bClick2:
-                addJunkToDB();
-                break;
             case R.id.bClick3:
-                Toast.makeText(getActivity(), "Launching dayActivity.", Toast.LENGTH_SHORT).show();
+//                addJunkToDB();
+                Toast.makeText(getActivity(), "Deprecated.", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.bRandom:
                 // showAlertDialog("Random Dialog");
                 Toast.makeText(getActivity(), "Dead :(", Toast.LENGTH_SHORT).show();

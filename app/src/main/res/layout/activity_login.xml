@@ -121,7 +121,7 @@
         android:layout_below="@+id/gridLayoutButtons"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/button_shape"
         android:elevation="7dp"
@@ -146,24 +146,23 @@
         android:textSize="20sp" />
 
 
-    <Button
-        android:id="@+id/showUserStatus"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/buttonFacebookLogin"
-
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/button_shape"
-        android:elevation="7dp"
-        android:fontFamily="@font/ml"
-        android:onClick="clicked_login"
-        android:text="Login status"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+    <!--    <Button-->
+    <!--        android:id="@+id/showUserStatus"-->
+    <!--        style="@style/Widget.AppCompat.Button.Colored"-->
+    <!--        android:layout_width="200dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:layout_below="@+id/buttonFacebookLogin"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="@dimen/activity_vertical_margin"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:background="@drawable/button_shape"-->
+    <!--        android:elevation="7dp"-->
+    <!--        android:fontFamily="@font/ml"-->
+    <!--        android:onClick="clicked_login"-->
+    <!--        android:text="Login status"-->
+    <!--        android:textAllCaps="false"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="20sp" />-->
 
 </RelativeLayout>

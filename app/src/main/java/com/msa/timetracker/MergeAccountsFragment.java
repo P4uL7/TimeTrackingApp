@@ -70,14 +70,10 @@ public class MergeAccountsFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.merge_loginButton:
-                Toast.makeText(getActivity(), "login", Toast.LENGTH_SHORT).show();
-                mergeEmail();
-                break;
             case R.id.merge_googleLoginButton:
-                Toast.makeText(getActivity(), "google", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.merge_buttonFacebookLogin:
-                Toast.makeText(getActivity(), "facebook", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Dead :(", Toast.LENGTH_SHORT).show();
+//                mergeEmail();
                 break;
             case R.id.merge_showUserStatus:
                 getCurrentUser();

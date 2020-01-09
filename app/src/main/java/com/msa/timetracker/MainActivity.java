@@ -1,6 +1,7 @@
 package com.msa.timetracker;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,8 +51,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //
         View headerView = navigationView.getHeaderView(0);
         ImageView navImage = headerView.findViewById(R.id.left_menu_image);
-        if (currentUser.getPhotoUrl() != null)
-            Picasso.get().load(currentUser.getPhotoUrl()).into(navImage);
+        if (currentUser.getPhotoUrl() != null) {
+            String url = currentUser.getPhotoUrl().toString();
+            if (url.contains("s96-c")) {
+                url = url.replace("s96-c", "s384-c");
+            } else {
+                url = url.concat("?type=large");
+            }
+            System.out.println("AVATAR URL: " + url);
+            Picasso.get().load(Uri.parse(url)).into(navImage);
+        }
         TextView navUsername = headerView.findViewById(R.id.left_menu_username);
         navUsername.setText(currentUser.getDisplayName());
         TextView navEmail = headerView.findViewById(R.id.left_menu_email);

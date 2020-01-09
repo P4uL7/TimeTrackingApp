@@ -1,5 +1,6 @@
 package com.msa.timetracker;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -56,8 +57,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         email = v.findViewById(R.id.profile_mail);
         time = v.findViewById(R.id.profile_number);
 
-        if (currentUser.getPhotoUrl() != null)
-            Picasso.get().load(currentUser.getPhotoUrl()).into(img);
+        if (currentUser.getPhotoUrl() != null) {
+            String url = currentUser.getPhotoUrl().toString();
+            if (url.contains("s96-c")) {
+                url = url.replace("s96-c", "s384-c");
+            } else {
+                url = url.concat("?type=large");
+            }
+            System.out.println("AVATAR URL: " + url);
+            Picasso.get().load(Uri.parse(url)).into(img);
+        }
         name.setText(currentUser.getDisplayName());
         email.setText(currentUser.getEmail());
 

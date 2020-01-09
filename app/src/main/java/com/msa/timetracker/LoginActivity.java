@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -52,6 +53,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
+        // Hide the status bar.
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        //
+
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -72,13 +79,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         initializeFacebookButton();
 
+        // Hide the status bar.
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        //
 
         // Check if user is signed in (non-null) and update UI accordingly.
+        mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         System.out.println("Current user: " + currentUser);
-        if (currentUser != null)
-            launchMainActivity();
+        if (currentUser != null) {
+            System.out.println("Launching mainActivity for user: " + currentUser);
+            final Handler handler = new Handler();
+            handler.postDelayed(() -> launchMainActivity(), 400);
+        }
     }
 
     private void initializeFacebookButton() {
@@ -89,11 +105,22 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                Log.d(TAG, "facebook:onSuccess:" + loginResult.toString());
                 Toast.makeText(LoginActivity.this, "Authentication OK.",
                         Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                launchMainActivity();
+
+                final Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    if (currentUser != null) {
+                        System.out.println("Success: Launching mainActivity for user: " + currentUser);
+                        launchMainActivity();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "user is null?",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }, 1000);
+
             }
 
             @Override
@@ -198,10 +225,10 @@ public class LoginActivity extends AppCompatActivity {
 //            case R.id.facebookLoginButton:
 //                tView.setText("Pressed Facebook.");
 //                break;
-            case R.id.showUserStatus:
-                tView.setText("Showing login status.");
-                getCurrentUser();
-                break;
+//            case R.id.showUserStatus:
+//                tView.setText("Showing login status.");
+//                getCurrentUser();
+//                break;
 
         }
     }
