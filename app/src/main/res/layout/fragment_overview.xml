@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_container_day"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_gray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/overview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/mr"
+        android:text="Task overview"
+        android:textColor="@color/white"
+        android:textSize="48sp" />
+
+    <TextView
+        android:id="@+id/overview_tsk_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/overview_title"
+        android:fontFamily="@font/mr"
+        android:paddingLeft="22dp"
+        android:paddingRight="20dp"
+        android:text="Date"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/white"
+        android:textSize="24dp" />
+
+
+    <TextView
+        android:id="@+id/overview_tsk_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/overview_title"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/mr"
+        android:paddingLeft="20dp"
+        android:paddingRight="40dp"
+        android:text="Total"
+        android:textColor="@color/white"
+        android:textSize="24dp" />
+
+    <ListView
+        android:id="@+id/overview_listView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/overview_tsk_name"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:padding="5dp" />
+
+    <!--    add task list here-->
+
+</RelativeLayout>

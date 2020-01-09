@@ -12,10 +12,10 @@
             android:id="@+id/nav_day"
             android:icon="@drawable/ic_day"
             android:title="Day" />
-<!--        <item-->
-<!--            android:id="@+id/nav_task"-->
-<!--            android:icon="@drawable/ic_task"-->
-<!--            android:title="Current Task" />-->
+        <item
+            android:id="@+id/nav_overview"
+            android:icon="@drawable/ic_overview"
+            android:title="Overview" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"

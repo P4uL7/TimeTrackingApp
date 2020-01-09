@@ -79,11 +79,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-//            case R.id.btn_profile:
-//                Toast.makeText(getActivity(), "clicky", Toast.LENGTH_SHORT).show();
-//                break;
-        }
+
     }
 
 
@@ -108,7 +104,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 int seconds = (int) (totalTime / 1000) % 60;
 
                 timeTxt = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-//                Toast.makeText(getActivity(), "Time: " + timeTxt, Toast.LENGTH_SHORT).show();
                 time.setText(timeTxt);
             }
 

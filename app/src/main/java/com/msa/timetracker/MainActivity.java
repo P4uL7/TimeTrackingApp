@@ -144,10 +144,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transaction.replace(R.id.fragment_container_main,
                         new DayFragment()).commit();
                 break;
-//            case R.id.nav_task:
-//                transaction.replace(R.id.fragment_container_main,
-//                        new TaskFragment()).commit();
-//                break;
+            case R.id.nav_overview:
+                transaction.replace(R.id.fragment_container_main,
+                        new OverviewFragment()).commit();
+                break;
             case R.id.nav_main:
                 transaction.replace(R.id.fragment_container_main,
                         new MainFragment()).commit();
