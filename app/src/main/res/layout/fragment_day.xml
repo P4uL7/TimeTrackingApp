@@ -3,6 +3,7 @@
     android:id="@+id/fragment_container_day"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_gray"
     android:orientation="vertical">
 
     <TextView
@@ -14,7 +15,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="40dp"
+        android:fontFamily="@font/mr"
         android:text="Today's tasks"
+        android:textColor="@color/white"
         android:textSize="48sp" />
 
     <TextView
@@ -22,11 +25,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/day_title"
+        android:fontFamily="@font/mr"
         android:paddingLeft="22dp"
         android:paddingRight="20dp"
         android:text="Task"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
         android:textSize="24dp" />
 
 
@@ -38,9 +42,11 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:fontFamily="@font/mr"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="Duration"
+        android:textColor="@color/white"
         android:textSize="24dp" />
 
     <ListView

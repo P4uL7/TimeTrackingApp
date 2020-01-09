@@ -3,6 +3,7 @@
     android:id="@+id/merge_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_gray"
     android:gravity="center"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -15,8 +16,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50sp"
+        android:fontFamily="@font/mr"
         android:text="Merge accounts"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
 
     <GridLayout
         android:id="@+id/merge_gridLayoutLogin"
@@ -33,13 +36,19 @@
             android:id="@+id/merge_email_label_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:fontFamily="@font/mr"
             android:text="email:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/merge_email_login"
             android:layout_width="@dimen/register_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:fontFamily="@font/mr"
             android:inputType="textEmailAddress"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -47,13 +56,19 @@
             android:id="@+id/merge_password_label_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:fontFamily="@font/mr"
             android:text="password:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/merge_password_login"
             android:layout_width="@dimen/register_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:fontFamily="@font/mr"
             android:inputType="textPassword"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </GridLayout>
@@ -62,44 +77,76 @@
     <Button
         android:id="@+id/merge_loginButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/merge_gridLayoutLogin"
         android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Login with email" />
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_shape"
+        android:elevation="7dp"
+        android:fontFamily="@font/ml"
+        android:text="Login with email"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/merge_googleLoginButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/merge_loginButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Google" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_shape"
+        android:elevation="7dp"
+        android:fontFamily="@font/ml"
+        android:text="Google"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
 
     <Button
         android:id="@+id/merge_buttonFacebookLogin"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/merge_googleLoginButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Facebook" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_shape"
+        android:elevation="7dp"
+        android:fontFamily="@font/ml"
+        android:text="Facebook"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
 
     <Button
         android:id="@+id/merge_showUserStatus"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/merge_buttonFacebookLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Login status" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_shape"
+        android:elevation="7dp"
+        android:fontFamily="@font/ml"
+        android:text="Login status"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

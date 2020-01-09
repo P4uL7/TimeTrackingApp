@@ -3,6 +3,7 @@
     android:id="@+id/fragment_container_task"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_gray"
     android:orientation="vertical">
 
     <TextView
@@ -14,7 +15,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="150dp"
+        android:fontFamily="@font/mr"
         android:text="Current task"
+        android:textColor="@color/white"
         android:textSize="40sp" />
 
     <Chronometer
@@ -24,6 +27,8 @@
         android:layout_below="@id/task_title"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:fontFamily="@font/mr"
+        android:textColor="@color/white"
         android:textSize="30sp" />
 
     <TextView
@@ -34,29 +39,47 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
+        android:fontFamily="@font/mr"
         android:text="Start the task!"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/start_timer"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@id/is_paused"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="55dp"
-        android:text="Start" />
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_shape"
+        android:elevation="7dp"
+        android:fontFamily="@font/ml"
+        android:text="Start"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/stop_timer"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@id/start_timer"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:text="Done" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_shape"
+        android:elevation="7dp"
+        android:fontFamily="@font/ml"
+        android:text="Done"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
 </RelativeLayout>

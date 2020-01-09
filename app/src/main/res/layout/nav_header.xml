@@ -18,14 +18,18 @@
         android:id="@+id/left_menu_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/mr"
         android:paddingTop="8dp"
         android:text="Username"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/left_menu_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="address@mail.com" />
+        android:fontFamily="@font/mr"
+        android:text="address@mail.com"
+        android:textColor="@color/white" />
 
 </LinearLayout>
