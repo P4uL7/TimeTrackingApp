@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //
 
         View headerView = navigationView.getHeaderView(0);
-        ImageView navImage = headerView.findViewById(R.id.left_menu_image);
+        CircularImageView navImage = headerView.findViewById(R.id.left_menu_image);
         if (currentUser.getPhotoUrl() != null) {
             String url = currentUser.getPhotoUrl().toString();
             if (url.contains("s96-c")) {

@@ -21,7 +21,9 @@
         </activity>
 
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" /> <!-- facebook -->
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppThemeTransparent" /> <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

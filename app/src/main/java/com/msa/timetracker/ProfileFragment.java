@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private View v;
     private String timeTxt = "";
     private TextView name, email, time;
-    private ImageView img;
+    private CircularImageView circularImageView;
     private long totalTime = 0;
 
     public ProfileFragment() {
@@ -56,7 +56,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
         //elements
-        img = v.findViewById(R.id.profile_img);
+        circularImageView = v.findViewById(R.id.profile_img);
         name = v.findViewById(R.id.profile_name);
         email = v.findViewById(R.id.profile_mail);
         time = v.findViewById(R.id.profile_number);
@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 url = url.concat("?type=large");
             }
             System.out.println("AVATAR URL: " + url);
-            Picasso.get().load(Uri.parse(url)).into(img);
+            Picasso.get().load(Uri.parse(url)).into(circularImageView);
         }
         name.setText(currentUser.getDisplayName());
         email.setText(currentUser.getEmail());
