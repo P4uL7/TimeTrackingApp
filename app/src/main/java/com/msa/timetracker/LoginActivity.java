@@ -2,7 +2,6 @@ package com.msa.timetracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -34,6 +32,8 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
@@ -128,8 +128,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onCancel");
                 Toast.makeText(LoginActivity.this, "Authentication Cancel.",
                         Toast.LENGTH_SHORT).show();
-
-                // ...
             }
 
             @Override
@@ -137,8 +135,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onError", error);
                 Toast.makeText(LoginActivity.this, error.getMessage(),
                         Toast.LENGTH_SHORT).show();
-                // ...
-                // TODO
             }
         });
     }
@@ -159,8 +155,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
-
-                    // ...
                 });
     }
 
@@ -174,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                firebaseAuthWithGoogle(Objects.requireNonNull(account));
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
@@ -218,18 +212,6 @@ public class LoginActivity extends AppCompatActivity {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
-//            case R.id.goToMainButton:
-//                tView.setText("Pressed goToMain.");
-//                launchMainActivity();
-//                break;
-//            case R.id.facebookLoginButton:
-//                tView.setText("Pressed Facebook.");
-//                break;
-//            case R.id.showUserStatus:
-//                tView.setText("Showing login status.");
-//                getCurrentUser();
-//                break;
-
         }
     }
 
@@ -251,7 +233,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Authentication Failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
-
                 });
     }
 
@@ -272,23 +253,6 @@ public class LoginActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void showAlertDialog(String message, String negative, String positive, String tag) {
-        FragmentManager fm = getSupportFragmentManager();
-        PopupDialogFragment alertDialog = new PopupDialogFragment(message, getApplicationContext(), negative, positive);
-        alertDialog.show(fm, tag);
-    }
-
-
-    private void launchMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    private void launchRegisterActivity() {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
 
     private void signIn(String email, String password) {
         System.out.println("Enter sign in.");
@@ -299,8 +263,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         currentUser = mAuth.getCurrentUser();
                         Log.d(TAG, "signInWithEmail:success");
-
-
                         launchMainActivity();
                     } else {
                         Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -308,33 +270,16 @@ public class LoginActivity extends AppCompatActivity {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                         System.out.println("Authentication failed.");
                     }
-
-                    // ...
                 });
     }
 
-    private void getCurrentUser() {
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            // Name, email address, and profile photo Url
-            String name = currentUser.getDisplayName();
-            String email = currentUser.getEmail();
-            Uri photoUrl = currentUser.getPhotoUrl();
+    private void launchMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
-            // Check if user's email is verified
-            boolean emailVerified = currentUser.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = currentUser.getUid();
-
-            System.out.println(name + "  " + email + "  \n" + photoUrl + " \n" + emailVerified + " \n" + uid);
-            Toast.makeText(LoginActivity.this, "Logged in as: " + email,
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(LoginActivity.this, "Not logged in.",
-                    Toast.LENGTH_SHORT).show();
-        }
+    private void launchRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 }

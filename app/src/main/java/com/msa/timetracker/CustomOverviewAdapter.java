@@ -11,14 +11,12 @@ import java.util.ArrayList;
 
 public class CustomOverviewAdapter extends ArrayAdapter<DataModel> {
 
-    Context mContext;
-
-    public CustomOverviewAdapter(ArrayList<DataModel> data, Context context) {
+    CustomOverviewAdapter(ArrayList<DataModel> data, Context context) {
         super(context, R.layout.overview_listview, data);
-        this.mContext = context;
 
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
@@ -39,8 +37,8 @@ public class CustomOverviewAdapter extends ArrayAdapter<DataModel> {
         }
 
 
-        viewHolder.taskName.setText(dataModel.getName());
-        viewHolder.taskDuration.setText(dataModel.getDuration());
+        viewHolder.taskName.setText(dataModel != null ? dataModel.getName() : null);
+        viewHolder.taskDuration.setText(dataModel != null ? dataModel.getDuration() : null);
         // Return the completed view to render on screen
         return convertView;
     }

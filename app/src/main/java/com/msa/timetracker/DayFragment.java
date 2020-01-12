@@ -1,5 +1,6 @@
 package com.msa.timetracker;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -32,7 +33,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
+@SuppressWarnings({"NullableProblems", "FieldCanBeLocal", "SwitchStatementWithTooFewBranches"})
 public class DayFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -66,7 +69,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
                 todaysTasks = new ArrayList<>();
 //                Toast.makeText(getActivity(), currentUser.getUid(), Toast.LENGTH_SHORT).show();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    todaysTasks.add(new DataModel(ds.getKey(), ds.getValue().toString()));
+                    todaysTasks.add(new DataModel(ds.getKey(), Objects.requireNonNull(ds.getValue()).toString()));
                     System.out.println("added to datamodel:" + ds.getKey());
                 }
 //                Toast.makeText(getActivity(), todaysTasks.size() + "", Toast.LENGTH_SHORT).show();
@@ -100,7 +103,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_task:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
                 builder.setTitle("Enter task name:");
 
                 final EditText input = new EditText(getActivity());
@@ -122,12 +125,10 @@ public class DayFragment extends Fragment implements View.OnClickListener {
                 input.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                     }
 
                     @Override
@@ -145,20 +146,24 @@ public class DayFragment extends Fragment implements View.OnClickListener {
                 });
 
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 
     private String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         return df.format(c);
     }
 
     private void replaceFragment(Fragment someFragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_main, someFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        FragmentTransaction transaction = getFragmentManager() != null ? getFragmentManager().beginTransaction() : null;
+        if (transaction != null) {
+            transaction.replace(R.id.fragment_container_main, someFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 }

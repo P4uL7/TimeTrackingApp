@@ -1,5 +1,6 @@
 package com.msa.timetracker;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
+@SuppressWarnings({"FieldCanBeLocal", "NullableProblems"})
 public class ProfileFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -31,7 +35,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
     private View v;
-    String timeTxt = "";
+    private String timeTxt = "";
     private TextView name, email, time;
     private ImageView img;
     private long totalTime = 0;
@@ -79,7 +83,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
     }
 
 
@@ -87,11 +90,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Read from the database
         DatabaseReference userRef = myRef.child(currentUser.getUid()); // get user's tasks
         userRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot day : dataSnapshot.getChildren())
                     for (DataSnapshot task : day.getChildren()) {
-                        long temp = Long.parseLong(task.getValue().toString());
+                        long temp = Long.parseLong(Objects.requireNonNull(task.getValue()).toString());
 
                         System.out.println("totalTime+=" + task.getKey() + " " + temp);
                         totalTime += temp;

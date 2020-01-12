@@ -1,5 +1,6 @@
 package com.msa.timetracker;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -25,8 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class TaskFragment extends Fragment implements View.OnClickListener {
-    long elapsedMillis = 0;
+    private long elapsedMillis = 0;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference myRef;
@@ -40,7 +42,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
     private Button start, stop;
     private String taskName;
 
-    public TaskFragment(String taskName) {
+    TaskFragment(String taskName) {
         this.taskName = taskName;
     }
 
@@ -81,9 +83,12 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
     private void addTaskToDB() {
         if (currentUser != null) {
             currentUser = mAuth.getCurrentUser();
-            String userID = currentUser.getUid();
+            String userID;
+            if (currentUser != null) {
+                userID = currentUser.getUid();
+                myRef.child(userID).child(getCurrentDate()).child(taskName).setValue(elapsedMillis);
+            }
 
-            myRef.child(userID).child(getCurrentDate()).child(taskName).setValue(elapsedMillis);
             Toast.makeText(getActivity(), "Task added to DB!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Failed to save task.", Toast.LENGTH_SHORT).show();
@@ -92,10 +97,11 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
 
     private String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         return df.format(c);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -125,7 +131,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
 
                     final Handler handler = new Handler();
                     handler.postDelayed(() -> {
-                        // Do something after delay
                         Fragment fragment = new DayFragment();
                         replaceFragment(fragment);
                     }, 800);
@@ -136,11 +141,14 @@ public class TaskFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void replaceFragment(Fragment someFragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_main, someFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    private void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction;
+        if (getFragmentManager() != null) {
+            transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container_main, someFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 

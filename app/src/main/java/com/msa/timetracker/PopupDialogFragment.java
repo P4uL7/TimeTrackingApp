@@ -8,22 +8,25 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.Objects;
+
 public class PopupDialogFragment extends DialogFragment {
     private String dialogMessage;
     private Context applicationContext;
     private String negativeButton, positiveButton;
 
-    public PopupDialogFragment(String dialogMessage, Context applicationContext, String negativeButton, String positiveButton) {
+    PopupDialogFragment(String dialogMessage, Context applicationContext, String negativeButton, String positiveButton) {
         this.dialogMessage = dialogMessage;
         this.applicationContext = applicationContext;
         this.negativeButton = negativeButton;
         this.positiveButton = positiveButton;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         builder.setMessage(dialogMessage)
                 .setPositiveButton(positiveButton, (dialog, id) -> {
                     showToast("Great...");

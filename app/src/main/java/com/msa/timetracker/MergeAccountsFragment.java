@@ -1,6 +1,5 @@
 package com.msa.timetracker;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class MergeAccountsFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -31,14 +30,13 @@ public class MergeAccountsFragment extends Fragment implements View.OnClickListe
 
     private View v;
 
-    EditText email_merge, password_merge;
-    Button merge_login, merge_google, merge_facebook, status;
+    private EditText email_merge, password_merge;
+    private Button merge_login, merge_google, merge_facebook, status;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_merge, container, false);
-
 
         email_merge = v.findViewById(R.id.merge_email_login);
         password_merge = v.findViewById(R.id.merge_password_login);
@@ -84,17 +82,7 @@ public class MergeAccountsFragment extends Fragment implements View.OnClickListe
     private void getCurrentUser() {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            // Name, email address, and profile photo Url
-            String name = currentUser.getDisplayName();
             String email = currentUser.getEmail();
-            Uri photoUrl = currentUser.getPhotoUrl();
-
-            // Check if user's email is verified
-            boolean emailVerified = currentUser.isEmailVerified();
-
-            String uid = currentUser.getUid();
-
-            System.out.println(name + "  " + email + "  \n" + photoUrl + " \n" + emailVerified + " \n" + uid);
             Toast.makeText(getActivity(), "Logged in as: " + email, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Not logged in.", Toast.LENGTH_SHORT).show();
@@ -104,11 +92,11 @@ public class MergeAccountsFragment extends Fragment implements View.OnClickListe
     private void mergeEmail() {
         AuthCredential credential = EmailAuthProvider.getCredential("asd@asd.com", "asdasd");
         mAuth.getCurrentUser().linkWithCredential(credential)
-                .addOnCompleteListener(getActivity(), task -> {
+                .addOnCompleteListener(Objects.requireNonNull(getActivity()), task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getActivity(), "Auth ok", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getActivity(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), Objects.requireNonNull(task.getException()).toString(), Toast.LENGTH_SHORT).show();
 //                        handleMerge(credential);
 
                     }
@@ -118,12 +106,9 @@ public class MergeAccountsFragment extends Fragment implements View.OnClickListe
     private void handleMerge(AuthCredential credential) {
         FirebaseUser prevUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser currentUser = task.getResult().getUser();
-                        // Merge prevUser and currentUser accounts and data
-                    }
+                .addOnCompleteListener(task -> {
+                    FirebaseUser currentUser = Objects.requireNonNull(task.getResult()).getUser();
+                    // Merge prevUser and currentUser accounts and data
                 });
     }
 }

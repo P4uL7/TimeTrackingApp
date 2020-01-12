@@ -1,11 +1,13 @@
 package com.msa.timetracker;
 
+import android.annotation.SuppressLint;
+
 public class DataModel {
 
     private String name;
     private String duration;
 
-    public DataModel(String name, String duration) {
+    DataModel(String name, String duration) {
         this.name = name;
         this.duration = duration;
     }
@@ -15,7 +17,8 @@ public class DataModel {
     }
 
 
-    public String getDuration() {
+    @SuppressLint("DefaultLocale")
+    String getDuration() {
         long milliseconds = Long.parseLong(duration);
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
         milliseconds -= hours * (1000 * 60 * 60);
@@ -23,8 +26,7 @@ public class DataModel {
         milliseconds -= minutes * (1000 * 60);
         int seconds = (int) (milliseconds / 1000) % 60;
 
-        String _duration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        return _duration;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
 }

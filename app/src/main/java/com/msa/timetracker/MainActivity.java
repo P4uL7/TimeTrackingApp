@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         //
+
         View headerView = navigationView.getHeaderView(0);
         ImageView navImage = headerView.findViewById(R.id.left_menu_image);
         if (currentUser.getPhotoUrl() != null) {
@@ -79,17 +81,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_main);
         }
         // end drawer stuff
-
-
     }
 
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         currentUser = mAuth.getCurrentUser();
-        System.out.println("Current user: " + currentUser);
     }
 
     @Override
@@ -105,12 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         alertDialog.show(fm, tag);
     }
 
-
-    private void launchLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     private void exitApp() {
         new AlertDialog.Builder(this)
@@ -168,5 +160,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void launchLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
