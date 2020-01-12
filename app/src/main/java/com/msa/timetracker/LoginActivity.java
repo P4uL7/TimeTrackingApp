@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -65,12 +64,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        initializeFacebookButton();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        initializeFacebookButton();
 
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth = FirebaseAuth.getInstance();
@@ -79,11 +78,54 @@ public class LoginActivity extends AppCompatActivity {
         System.out.println("Current user: " + currentUser);
         if (currentUser != null) {
             System.out.println("Launching mainActivity for user: " + currentUser);
-            final Handler handler = new Handler();
-            handler.postDelayed(() -> launchMainActivity(), 400);
+            launchMainActivity();
         }
     }
 
+    //sign-in with email
+    private void signIn(String email, String password) {
+        System.out.println("Enter sign in.");
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LoginActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Authentication OK.",
+                                Toast.LENGTH_SHORT).show();
+                        currentUser = mAuth.getCurrentUser();
+                        Log.d(TAG, "signInWithEmail:success");
+                        launchMainActivity();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        System.out.println("Authentication failed.");
+                    }
+                });
+    }
+
+    // sign-in with google
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+                        Toast.makeText(LoginActivity.this, "Authentication OK.",
+                                Toast.LENGTH_SHORT).show();
+                        currentUser = mAuth.getCurrentUser();
+                        launchMainActivity();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        Toast.makeText(LoginActivity.this, "Authentication Failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    //sign-in with facebook
     private void initializeFacebookButton() {
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
@@ -106,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "user is null?",
                                 Toast.LENGTH_SHORT).show();
                     }
-                }, 1000);
+                }, 2000);
 
             }
 
@@ -169,7 +211,6 @@ public class LoginActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void clicked_login(View view) {
 
-        TextView tView = findViewById(R.id.login_message);
         EditText email_field = findViewById(R.id.email_login);
         EditText password_field = findViewById(R.id.password_login);
 
@@ -178,7 +219,6 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.loginButton:
-                tView.setText("Pressed login.");
                 if (email.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Email cannot be empty.",
                             Toast.LENGTH_SHORT).show();
@@ -190,38 +230,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.goToRegisterButton:
-                tView.setText("Pressed register.");
                 launchRegisterActivity();
                 break;
 
             case R.id.googleLoginButton:
-                tView.setText("Pressed Google.");
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
         }
     }
 
-    // START auth_with_google
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success");
-                        currentUser = mAuth.getCurrentUser();
-                        launchMainActivity();
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(LoginActivity.this, "Authentication Failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 
     @Override
     public void onBackPressed() {
@@ -238,26 +256,6 @@ public class LoginActivity extends AppCompatActivity {
                 // A null listener allows the button to dismiss the dialog and take no further action.
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-
-    private void signIn(String email, String password) {
-        System.out.println("Enter sign in.");
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(LoginActivity.this, task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Authentication succeeded.",
-                                Toast.LENGTH_SHORT).show();
-                        currentUser = mAuth.getCurrentUser();
-                        Log.d(TAG, "signInWithEmail:success");
-                        launchMainActivity();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        System.out.println("Authentication failed.");
-                    }
-                });
     }
 
     private void launchMainActivity() {

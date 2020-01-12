@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 url = url.concat("?type=large");
             }
-            System.out.println("AVATAR URL: " + url);
             Picasso.get().load(Uri.parse(url)).into(navImage);
         }
         TextView navUsername = headerView.findViewById(R.id.left_menu_username);

@@ -17,11 +17,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="50sp"
         android:fontFamily="@font/mr"
-        android:text="LOGIN activity"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/white" />
+        android:text="TIME Tracker"
+        android:textColor="@color/white"
+        android:textSize="32dp" />
 
     <GridLayout
         android:id="@+id/gridLayoutLogin"
@@ -38,9 +39,9 @@
             android:id="@+id/email_label_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:fontFamily="@font/mr"
-            android:text="email:"
+            android:text="Email:"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white" />
 
@@ -58,9 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:fontFamily="@font/mr"
-            android:text="password:"
+            android:text="Password:"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white" />
 
@@ -112,17 +113,26 @@
 
     </GridLayout>
 
+    <TextView
+        android:id="@+id/or_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gridLayoutButtons"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/mr"
+        android:text="or login with"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/googleLoginButton"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/gridLayoutButtons"
+        android:layout_below="@+id/or_message"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_shape"
         android:elevation="7dp"
         android:fontFamily="@font/ml"
@@ -130,7 +140,8 @@
         android:text="Google"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
 
     <com.facebook.login.widget.LoginButton
@@ -140,7 +151,7 @@
         android:layout_below="@+id/googleLoginButton"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp"
         android:fontFamily="@font/ml"
         android:textSize="20sp" />
