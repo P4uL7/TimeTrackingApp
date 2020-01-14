@@ -78,6 +78,27 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         final Handler handler = new Handler();
         handler.postDelayed(() -> getTime(), 800);
 
+
+//        BarChart chart = v.findViewById(R.id.barchart);
+//        ArrayList<BarEntry> NoOfEmp = new ArrayList<>();
+//
+//        NoOfEmp.add(new BarEntry(945f, 0));
+//        NoOfEmp.add(new BarEntry(1040f, 1));
+//        NoOfEmp.add(new BarEntry(1133f, 2));
+//        NoOfEmp.add(new BarEntry(1240f, 3));
+//        NoOfEmp.add(new BarEntry(1369f, 4));
+//        NoOfEmp.add(new BarEntry(1487f, 5));
+//        NoOfEmp.add(new BarEntry(1501f, 6));
+//        NoOfEmp.add(new BarEntry(1645f, 7));
+//        NoOfEmp.add(new BarEntry(1578f, 8));
+//        NoOfEmp.add(new BarEntry(1695f, 9));
+//
+//        BarDataSet bardataset = new BarDataSet(NoOfEmp, "No Of Employee");
+//        chart.animateY(5000);
+//        BarData data = new BarData(bardataset);
+//        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+//        chart.setData(data);
+
         return v;
     }
 

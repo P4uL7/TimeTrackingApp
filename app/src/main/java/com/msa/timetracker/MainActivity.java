@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -94,6 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container_main);
+        if (!(currentFragment instanceof MainFragment)) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+            transaction.replace(R.id.fragment_container_main, new MainFragment()).commit();
+        }
     }
 
     private void showAlertDialog(String message, String negative, String positive, String tag) {
@@ -125,27 +133,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container_main);
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
         switch (menuItem.getItemId()) {
-            case R.id.nav_profile:
-                transaction.replace(R.id.fragment_container_main,
-                        new ProfileFragment()).commit();
+            case R.id.nav_main:
+                if (!(currentFragment instanceof MainFragment)) {
+                    transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+                    transaction.replace(R.id.fragment_container_main,
+                            new MainFragment()).commit();
+                }
                 break;
             case R.id.nav_day:
-                transaction.replace(R.id.fragment_container_main,
-                        new DayFragment()).commit();
+                if (!(currentFragment instanceof DayFragment))
+                    transaction.replace(R.id.fragment_container_main,
+                            new DayFragment()).commit();
                 break;
             case R.id.nav_overview:
-                transaction.replace(R.id.fragment_container_main,
-                        new OverviewFragment()).commit();
+                if (!(currentFragment instanceof OverviewFragment))
+                    transaction.replace(R.id.fragment_container_main,
+                            new OverviewFragment()).commit();
                 break;
-            case R.id.nav_main:
-                transaction.replace(R.id.fragment_container_main,
-                        new MainFragment()).commit();
+            case R.id.nav_profile:
+                if (!(currentFragment instanceof ProfileFragment))
+                    transaction.replace(R.id.fragment_container_main,
+                            new ProfileFragment()).commit();
                 break;
             case R.id.nav_merge:
-                transaction.replace(R.id.fragment_container_main,
-                        new MergeAccountsFragment()).commit();
+                if (!(currentFragment instanceof MergeAccountsFragment))
+                    transaction.replace(R.id.fragment_container_main,
+                            new MergeAccountsFragment()).commit();
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
