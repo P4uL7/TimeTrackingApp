@@ -1,6 +1,10 @@
 package com.msa.timetracker;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +14,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.facebook.AccessToken;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -66,16 +73,74 @@ public class MergeAccountsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.merge_loginButton:
-            case R.id.merge_googleLoginButton:
-            case R.id.merge_buttonFacebookLogin:
-                Toast.makeText(getActivity(), "Dead :(", Toast.LENGTH_SHORT).show();
-//                mergeEmail();
-                break;
-            case R.id.merge_showUserStatus:
-                getCurrentUser();
-                break;
+        boolean disabled = true;
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (disabled) {
+            Toast.makeText(getActivity(), "Feature disabled", Toast.LENGTH_SHORT).show();
+        } else {
+            switch (v.getId()) {
+                case R.id.merge_loginButton:
+                    //start dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+                    builder.setTitle("Please re-enter password:");
+
+                    final EditText input = new EditText(getActivity());
+                    input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("OK", (dialog, which) -> {
+                        AuthCredential current_credential = EmailAuthProvider.getCredential(currentUser.getEmail(), input.getText().toString());
+                        currentUser.reauthenticate(current_credential);
+                        AuthCredential credential = EmailAuthProvider.getCredential(email_merge.getText().toString(), password_merge.getText().toString());
+                        mergeEmail(credential);
+                    });
+                    builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                    input.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            // Check if edittext is empty
+                            if (TextUtils.isEmpty(s)) {
+                                // Disable ok button
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+                            } else {
+                                // Something into edit text. Enable the button.
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                            }
+                        }
+                    });
+                    //end dialog
+
+                    break;
+                case R.id.merge_googleLoginButton:
+                    //get google token
+                    // AuthCredential credential = GoogleAuthProvider.getCredential(googleIdToken, null);
+                    // Toast.makeText(getActivity(), credential != null ? credential.getProvider() : "null", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.merge_buttonFacebookLogin:
+                    AccessToken token = AccessToken.getCurrentAccessToken();
+                    AuthCredential current_credential = FacebookAuthProvider.getCredential(token.getToken());
+                    currentUser.reauthenticate(current_credential);
+                    AuthCredential credential = EmailAuthProvider.getCredential(email_merge.getText().toString(), password_merge.getText().toString());
+                    mergeEmail(credential);
+
+                    break;
+                case R.id.merge_showUserStatus:
+                    getCurrentUser();
+                    break;
+            }
         }
     }
 
@@ -89,26 +154,19 @@ public class MergeAccountsFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    private void mergeEmail() {
-        AuthCredential credential = EmailAuthProvider.getCredential("asd@asd.com", "asdasd");
-        mAuth.getCurrentUser().linkWithCredential(credential)
-                .addOnCompleteListener(Objects.requireNonNull(getActivity()), task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getActivity(), "Auth ok", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), Objects.requireNonNull(task.getException()).toString(), Toast.LENGTH_SHORT).show();
-//                        handleMerge(credential);
-
-                    }
-                });
+    private void mergeEmail(AuthCredential credential) {
+        mAuth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getActivity(), "OK", Toast.LENGTH_SHORT).show();
+                FirebaseUser user = task.getResult().getUser();
+            } else {
+                Toast.makeText(getActivity(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                System.out.println(" >>> MERGE_ERROR: " + task.getException().toString());
+            }
+        });
     }
 
-    private void handleMerge(AuthCredential credential) {
-        FirebaseUser prevUser = FirebaseAuth.getInstance().getCurrentUser();
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(task -> {
-                    FirebaseUser currentUser = Objects.requireNonNull(task.getResult()).getUser();
-                    // Merge prevUser and currentUser accounts and data
-                });
+    public void showDialog() {
+
     }
 }
